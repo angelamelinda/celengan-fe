@@ -82,7 +82,7 @@ export const getCategories = (): ThunkAction<void, IAppState, {}, TAllAction> =>
                 dispatch(setExpenseCategoryData(expense))
             }
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
@@ -124,7 +124,7 @@ export const postCategory = (data: ICategory): ThunkAction<void, IAppState, {}, 
             setSelectedCategory(undefined);
             dispatch(getCategories());
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
@@ -168,7 +168,7 @@ export const updateCategory = (data: ICategory, id: string): ThunkAction<void, I
                 dispatch(getCategories());
             }
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
@@ -218,7 +218,7 @@ export const deleteCategory = (id: string, data: ICategory): ThunkAction<void, I
                 dispatch(setSelectedCategory(undefined))
             }
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }

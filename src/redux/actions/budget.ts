@@ -84,7 +84,7 @@ export const getBudgets = (date?: { start_date: string, end_date: string }): Thu
                 dispatch(setBudgets(budgets));
             }
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
@@ -122,7 +122,7 @@ export const getBudget = (id: string): ThunkAction<void, IAppState, {}, TAllActi
                 dispatch(setBudget(budget))
             }
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
@@ -176,7 +176,7 @@ export const postBudget = (budget: IBudget, category: ICategory, history: Histor
                 history.push(APP_URL.BUDGET);
             }
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
@@ -226,7 +226,7 @@ export const updateBudget = (id: string, budget: IBudget, category: ICategory, h
                 history.push(APP_URL.BUDGET);
             }
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
@@ -270,7 +270,7 @@ export const deleteBudget = (id: string, history: History): ThunkAction<void, IA
             dispatch(setSelectedCategory(undefined));
             history.goBack();
         }).catch((err) => {
-            if (err.response.status === 401) {
+            if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
             }
