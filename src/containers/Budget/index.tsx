@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { History } from 'history';
-import { IAppState } from '../../interfaces/states';
+import { IAppState, IBudget } from '../../interfaces/states';
 import AppNavigation from '../../layouts/AppNavigation';
 import {
   BudgetItemAmount,
@@ -14,6 +14,7 @@ import {
   BudgetItemNameCategory,
   BudgetItemProgress,
   BudgetItemProgressWrapper,
+  BudgetItemsWrapper,
   BudgetItemTop,
   BudgetItemWrapper,
   BudgetNotFound,
@@ -26,6 +27,7 @@ import {
   goBack,
   getBudgets,
   setBudgetRangeDate,
+  setSelectedBudget,
 } from '../../redux/actions/budget';
 import { getIcons } from '../../helpers/getIcons';
 import { APP_URL, MONTHS } from '../../constants';
@@ -38,6 +40,7 @@ interface IBudgetProps extends RouteComponentProps {
   goBack: (history: History) => void;
   history: History;
   setBudgetRangeDate: (startDate: string, endDate: string) => void;
+  setSelectedBudget: (selectedBudget: IBudget | undefined) => void;
 }
 
 class Budget extends PureComponent<IBudgetProps> {
@@ -45,6 +48,7 @@ class Budget extends PureComponent<IBudgetProps> {
     const { getBudgets, state } = this.props;
     const { budgetReducer } = state;
     const { rangeDate } = budgetReducer;
+
     getBudgets({
       start_date: rangeDate.startDate,
       end_date: rangeDate.endDate,
@@ -57,7 +61,9 @@ class Budget extends PureComponent<IBudgetProps> {
   };
 
   handleAdd = () => {
-    const { history } = this.props;
+    const { history, setSelectedBudget } = this.props;
+
+    setSelectedBudget(undefined);
     history.push(APP_URL.NEW_BUDGET);
   };
 
@@ -79,34 +85,48 @@ class Budget extends PureComponent<IBudgetProps> {
     getBudgets({ start_date: newDate.startDate, end_date: newDate.endDate });
   };
 
+  handleClickBudgetItem = (budget: IBudget) => {
+    const { state, history, setSelectedBudget } = this.props;
+    const { budgetReducer } = state;
+    const { isSetBudget } = budgetReducer;
+
+    if (isSetBudget) {
+      setSelectedBudget(budget);
+      history.goBack();
+    } else {
+      history.push(APP_URL.BUDGET_DETAIL.replace(':id', budget._id as string));
+    }
+  };
+
   render() {
     const { state } = this.props;
     const { budgetReducer, commonReducer } = state;
-    const { budgets, rangeDate } = budgetReducer;
+    const { budgets, rangeDate, isSetBudget } = budgetReducer;
     const { isLoading } = commonReducer;
     const d = new Date(rangeDate.startDate);
-
     return (
       <AppNavigation
         title="Budgets"
         onClickNavigation={this.handleBack}
-        onClickAdd={this.handleAdd}
+        onClickAdd={isSetBudget ? undefined : this.handleAdd}
       >
         <BudgetWrapper>
-          <BudgetPeriodicWrapper>
-            <BudgetPeriodicPrevMonth
-              onClick={() => this.handleClickNav('prev')}
-            >
-              <MdNavigateBefore />
-            </BudgetPeriodicPrevMonth>
-            {`${MONTHS[d.getMonth()]} ${d.getFullYear()}`}
-            <BudgetPeriodicNextMonth
-              onClick={() => this.handleClickNav('next')}
-            >
-              <MdNavigateNext />
-            </BudgetPeriodicNextMonth>
-          </BudgetPeriodicWrapper>
-          <BudgetItemWrapper>
+          {!isSetBudget && (
+            <BudgetPeriodicWrapper>
+              <BudgetPeriodicPrevMonth
+                onClick={() => this.handleClickNav('prev')}
+              >
+                <MdNavigateBefore />
+              </BudgetPeriodicPrevMonth>
+              {`${MONTHS[d.getMonth()]} ${d.getFullYear()}`}
+              <BudgetPeriodicNextMonth
+                onClick={() => this.handleClickNav('next')}
+              >
+                <MdNavigateNext />
+              </BudgetPeriodicNextMonth>
+            </BudgetPeriodicWrapper>
+          )}
+          <BudgetItemsWrapper>
             {budgets && budgets.length === 0 && !isLoading && (
               <BudgetNotFound>Budget is Empty</BudgetNotFound>
             )}
@@ -114,8 +134,8 @@ class Budget extends PureComponent<IBudgetProps> {
               budgets.map((budget, id) => {
                 const { category } = budget;
                 return (
-                  <Link
-                    to={APP_URL.BUDGET_DETAIL.replace(':id', budget._id)}
+                  <BudgetItemWrapper
+                    onClick={() => this.handleClickBudgetItem(budget)}
                     key={id}
                   >
                     <BudgetItemTop>
@@ -141,13 +161,17 @@ class Budget extends PureComponent<IBudgetProps> {
                           : `spent ${convertMoneyToIDR(budget.spent)}`}
                       </BudgetItemLeftAmount>
                       <BudgetItemProgressWrapper>
-                        <BudgetItemProgress />
+                        <BudgetItemProgress
+                          width={Math.round(
+                            (budget.spent / budget.amount) * 100,
+                          )}
+                        />
                       </BudgetItemProgressWrapper>
                     </BudgetItemBottom>
-                  </Link>
+                  </BudgetItemWrapper>
                 );
               })}
-          </BudgetItemWrapper>
+          </BudgetItemsWrapper>
         </BudgetWrapper>
       </AppNavigation>
     );
@@ -160,6 +184,7 @@ const mapDispatchToProps = {
   getBudgets,
   goBack,
   setBudgetRangeDate,
+  setSelectedBudget,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Budget));

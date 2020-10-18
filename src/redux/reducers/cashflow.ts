@@ -10,7 +10,7 @@ export const INITIAL_STATE: ICashflowState = {
     cashflows: null,
     cashflow: {
         notes: '',
-        type: undefined,
+        type: 'expense',
         amount: 0,
         input_date: currentDate
     },

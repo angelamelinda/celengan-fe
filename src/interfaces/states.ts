@@ -70,7 +70,7 @@ export interface ICashflow {
     budget_id?: string;
     _id?: string;
     notes: string;
-    type: 'income' | 'expense' | undefined;
+    type: 'income' | 'expense';
     amount: number;
     input_date: string;
 }

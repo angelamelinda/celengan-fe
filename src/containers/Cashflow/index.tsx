@@ -62,7 +62,7 @@ class Cashflow extends PureComponent<ICashflowProps> {
 
   handleClickAdd = () => {
     const { history } = this.props;
-    history.push(APP_URL.NEW_CASHFLOW);
+    history.push(APP_URL.NEW_CASHFLOW.replace(':type', 'expense'));
   };
 
   handleClickBack = () => {
@@ -174,7 +174,7 @@ class Cashflow extends PureComponent<ICashflowProps> {
                                   {detail.category.name}
                                 </CashflowItemDetailName>
                                 <CashflowItemDetailNotes>
-                                  {detail.notes}
+                                  {detail.budget && detail.budget.name}
                                 </CashflowItemDetailNotes>
                               </CashflowItemDetailNameNotes>
                               <CashflowItemDetailAmount>

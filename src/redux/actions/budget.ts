@@ -145,8 +145,7 @@ export const getBudget = (id: string): ThunkAction<void, IAppState, {}, TAllActi
 export const postBudget = (budget: IBudget, category: ICategory, history: History): ThunkAction<void, IAppState, {}, TAllAction> => {
     return (dispatch, getState) => {
         const { budgetReducer } = getState();
-        const { rangeDate } = budgetReducer;
-
+        const { rangeDate, isSetBudget } = budgetReducer;
         const token = getLocalStorage('token');
         const config = {
             headers: {
@@ -173,6 +172,7 @@ export const postBudget = (budget: IBudget, category: ICategory, history: Histor
                 dispatch(setIsSetCategory(false));
                 dispatch(setSelectedCategory(undefined));
                 dispatch(setBudgetRangeDate(data.start_date, data.end_date))
+                dispatch(setIsSetBudget(isSetBudget))
                 history.push(APP_URL.BUDGET);
             }
         }).catch((err) => {
@@ -199,7 +199,9 @@ export const postBudget = (budget: IBudget, category: ICategory, history: Histor
 }
 
 export const updateBudget = (id: string, budget: IBudget, category: ICategory, history: History): ThunkAction<void, IAppState, {}, TAllAction> => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const { budgetReducer } = getState();
+        const { isSetBudget } = budgetReducer;
         const token = getLocalStorage('token');
         const config = {
             headers: {
@@ -223,6 +225,7 @@ export const updateBudget = (id: string, budget: IBudget, category: ICategory, h
                 dispatch(resetBudgetState());
                 dispatch(setIsSetCategory(false));
                 dispatch(setSelectedCategory(undefined));
+                dispatch(setIsSetBudget(isSetBudget))
                 history.push(APP_URL.BUDGET);
             }
         }).catch((err) => {

@@ -9,7 +9,7 @@ export const APP_URL = {
     NEW_BUDGET: '/budget/new',
     BUDGET_DETAIL: '/budget/:id',
     CASHFLOW: '/cashflow',
-    NEW_CASHFLOW: '/cashflow/new',
+    NEW_CASHFLOW: '/cashflow/new/:type',
     CASHFLOW_DETAIL: '/cashflow/:id',
     CATEGORY: '/category/:type',
     ICONS: '/icons',
@@ -37,7 +37,7 @@ export const API = {
     BUDGET: `${API_BASE_URL.BUDGET}`,
     BUDGET_ID: `${API_BASE_URL.BUDGET}/:id`,
     CASHFLOW: `${API_BASE_URL.CASHFLOW}`,
-    CASHFLOW_ID: `${API_BASE_URL.CASHFLOW}/:id`,
+    CASHFLOW_ID: `${API_BASE_URL.CASHFLOW}/detail/:id`,
     CASHFLOW_REPORT: `${API_BASE_URL.CASHFLOW}/report`,
     CASHFLOW_BY_BUDGET: `${API_BASE_URL.CASHFLOW}/by_budget/:id`,
 }
@@ -113,4 +113,4 @@ export const MONTHS = ["January",
     "November",
     "December",]
 
-export const DAYS = ["Monday", "Sunday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+export const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",]

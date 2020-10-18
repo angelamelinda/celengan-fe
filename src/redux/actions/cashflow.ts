@@ -140,7 +140,7 @@ export const deleteCashflow = (id: string, history: History): ThunkAction<void, 
 
         dispatch(setLoading(true));
 
-        Axios.delete(API.BUDGET_ID.replace(':id', id), config).then((_) => {
+        Axios.delete(API.CASHFLOW_ID.replace(':id', id).replace('detail/', ''), config).then((_) => {
             dispatch(setNotification({
                 message: MESSAGES.SUCCESSFULLY_DELETE.replace('<type>', 'the cashflow'),
                 autoClose: 3000,
@@ -198,7 +198,7 @@ export const updateCashflow = (id: string, cashflow: ICashflow, budget: IBudget,
             data = { ...data, budget_id: budget._id }
         }
 
-        Axios.put(API.CASHFLOW_ID.replace(':id', id), data, config).then((resp) => {
+        Axios.put(API.CASHFLOW_ID.replace(':id', id).replace('detail/', ''), data, config).then((resp) => {
             if (resp && resp.data && resp.data.message) {
                 dispatch(setNotification({
                     message: MESSAGES.SUCCESSFULLY_UPDATE.replace('<type>', 'the cashflow'),
@@ -250,6 +250,8 @@ export const postCashflow = (cashflow: ICashflow, budget: IBudget, category: ICa
             amount: Number(cashflow.amount),
             input_date: cashflow.input_date
         }
+
+        console.log(cashflow.type);
 
         if (category) {
             data = { ...data, category_id: category._id }
@@ -312,21 +314,21 @@ export const submitSaveCashflow = (type: 'new' | 'update', history: History, id?
             input_date: cashflow.input_date
         }
 
-        if (selectedCategory) {
+        if (cashflow.type === 'income') {
             dataValidation = {
                 ...dataValidation,
                 category: selectedCategory,
             }
         }
 
-        if (selectedBudget) {
+        if (cashflow.type === 'expense') {
             dataValidation = {
                 ...dataValidation,
                 budget: selectedBudget,
             }
         }
 
-        validateCashflow(dataValidation)
+        validateCashflow(dataValidation, cashflow.type as 'income' | 'expense')
             .then(() => {
                 switch (type) {
                     case "new":

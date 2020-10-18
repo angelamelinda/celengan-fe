@@ -35,7 +35,9 @@ export const CashflowNotFound = styled.div`
 `
 
 export const CashflowItemWrapper = styled.div`
-    padding: 15px 20px;`
+    &:not(:empty) {
+        padding: 15px 20px;
+    }`
 
 export const CashflowItemDate = styled.div`
     padding: 10px 10px 0;
@@ -87,7 +89,9 @@ margin-right: 5px;
 
 export const CashflowDateYear = styled.div``
 
-export const CashflowExpenseIncomeWrapper = styled.div``
+export const CashflowExpenseIncomeWrapper = styled.div`
+    text-align: right;
+`
 
 export const CashflowExpense = styled.div`
 color: ${COLOR.RED};

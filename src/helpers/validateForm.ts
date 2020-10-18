@@ -121,14 +121,14 @@ export const validateBudget = (budget: IErrorBudgetForm) => {
     })
 }
 
-export const validateCashflow = (cashflow: IErrorCashflowForm) => {
+export const validateCashflow = (cashflow: IErrorCashflowForm, type: 'expense' | 'income') => {
     return new Promise((resolve, reject) => {
         const error: IErrorField = {
             notes: validate.emptyString(cashflow.notes),
             amount: validate.isNumber(cashflow.amount) || validate.minNumber(cashflow.amount, 500),
             input_date: validate.date(cashflow.input_date),
-            category: (!cashflow.budget && !cashflow.category) ? 'Choose category' : '',
-            budget: (!cashflow.budget && !cashflow.category) ? 'Choose budget' : '',
+            category: (type === 'income' && !cashflow.category) ? 'Choose category' : undefined,
+            budget: (type === 'expense' && !cashflow.budget) ? 'Choose budget' : undefined,
         }
 
         Object.keys(error).forEach((key: string) => {

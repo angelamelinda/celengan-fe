@@ -25,18 +25,19 @@ export const BudgetPeriodicNextMonth = styled.div`
 `
 
 export const BudgetItemWrapper = styled.div`
+    padding: 15px 0;
+    display: block;
+    color: ${COLOR.BLACK};
+
+    &:not(:last-of-type) {
+        border-bottom: 1px solid #e0e0e0;
+
+    }
+`
+
+export const BudgetItemsWrapper = styled.div`
     padding: 0 15px;
 
-    > a {
-        padding: 15px 0;
-        display: block;
-        color: ${COLOR.BLACK};
-
-        &:not(:last-of-type) {
-            border-bottom: 1px solid #e0e0e0;
-
-        }
-    }
     `
 
 export const BudgetItem = styled.div`
@@ -93,8 +94,9 @@ export const BudgetItemProgress = styled.div<{
 }>`
     background: ${COLOR.PRIMARY};
     width: ${props => props.width || 0}%;
-    margin-top: 10px;
     transition: all .3s ease;
+    height: 8px;
+
 `
 
 export const BudgetItemLeftAmount = styled.div`
