@@ -42,6 +42,7 @@ const App: FC<IApp> = ({ state }) => {
             component={CashflowDetail}
           />
           <Route exact path={APP_URL.CASHFLOW} component={Cashflow} />
+          <Route component={Dashboard} />
         </Switch>
       );
     }
