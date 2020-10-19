@@ -97,6 +97,10 @@ export const BudgetItemProgress = styled.div<{
     transition: all .3s ease;
     height: 8px;
 
+    ${BudgetItemWrapper}.overspent & {
+        background: ${COLOR.RED};
+    }
+
 `
 
 export const BudgetItemLeftAmount = styled.div`

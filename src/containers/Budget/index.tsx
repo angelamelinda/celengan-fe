@@ -137,6 +137,9 @@ class Budget extends PureComponent<IBudgetProps> {
                   <BudgetItemWrapper
                     onClick={() => this.handleClickBudgetItem(budget)}
                     key={id}
+                    className={
+                      budget.amount - budget.spent < 0 ? 'overspent' : ''
+                    }
                   >
                     <BudgetItemTop>
                       <BudgetItemIcon>{getIcons(category.icon)}</BudgetItemIcon>
@@ -154,11 +157,13 @@ class Budget extends PureComponent<IBudgetProps> {
                     </BudgetItemTop>
                     <BudgetItemBottom>
                       <BudgetItemLeftAmount>
-                        {budget.spent < 0
+                        {budget.amount - budget.spent < 0
                           ? `overspent ${convertMoneyToIDR(
-                              Math.abs(budget.spent),
+                              Math.abs(budget.amount - budget.spent),
                             )}`
-                          : `spent ${convertMoneyToIDR(budget.spent)}`}
+                          : `spent ${convertMoneyToIDR(
+                              budget.amount - budget.spent,
+                            )}`}
                       </BudgetItemLeftAmount>
                       <BudgetItemProgressWrapper>
                         <BudgetItemProgress
