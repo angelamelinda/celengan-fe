@@ -356,6 +356,6 @@ export const goBack = (history: History): ThunkAction<void, IAppState, {}, TAllA
         dispatch(setSelectedCategory(undefined));
         dispatch(setIsSetBudget(false));
         dispatch(setSelectedBudget(undefined));
-        history.goBack();
+        history.push(APP_URL.DASHBOARD);
     }
 }

@@ -1,6 +1,6 @@
 import { Action } from "redux";
 import { IErrorBudgetForm, IErrorCashflowForm } from "./error";
-import { IBudget, IBudgetResponse, ICashflow, ICashflowResponse, ICategory, IError, ILoginForm, INotification, IRegisterForm } from "./states";
+import { IBudget, IBudgetResponse, ICashflow, ICashflowResponse, ICategory, IError, ILoginForm, INotification, IRegisterForm, IReportResponse } from "./states";
 
 export enum E_COMMON_ACTION {
     COMMON_SET_LOADING = 'COMMON_SET_LOADING',
@@ -228,9 +228,27 @@ export interface ICashflowAction extends Action<E_CASHFLOW_ACTION> {
     payload?: TCashflowAction;
 }
 
+
+export enum E_DASHBOARD_ACTION {
+    DASHBOARD_RESET_STATE = 'DASHBOARD_RESET_STATE',
+    DASHBOARD_SET_REPORT = 'DASHBOARD_SET_REPORT',
+}
+
+export interface IDashboardSetReport {
+    report: IReportResponse | null;
+}
+
+export type TDashboardAction =
+    | IDashboardSetReport
+
+export interface IDashboardAction extends Action<E_DASHBOARD_ACTION> {
+    payload?: TDashboardAction;
+}
+
 export type TAllAction =
     | IUserAction
     | ICommonAction
     | ICategoryAction
     | IBudgetAction
-    | ICashflowAction;
+    | ICashflowAction
+    | IDashboardAction;

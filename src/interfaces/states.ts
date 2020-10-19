@@ -65,6 +65,21 @@ export interface ICashflowResponse {
     }[]
 }
 
+export interface IReportResponse {
+    dailyReport: ICashflowResponse[];
+    budgetReport: {
+        expensePercentage: number;
+        incomePercentage: number;
+        totalExpenses: number;
+        totalIncome: number;
+        budget: IBudgetResponse;
+    }[],
+    totalExpenses: number;
+    totalIncome: number;
+    totalBalance: number;
+
+}
+
 export interface ICashflow {
     category_id?: string;
     budget_id?: string;
@@ -121,10 +136,15 @@ export interface ICashflowState {
     },
 }
 
+export interface IDashboarState {
+    report: IReportResponse | null;
+}
+
 export interface IAppState {
     userReducer: IUserState;
     commonReducer: ICommonState;
     categoryReducer: ICategoryState;
     budgetReducer: IBudgetState;
     cashflowReducer: ICashflowState;
+    dashboardReducer: IDashboarState;
 }

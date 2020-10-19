@@ -332,7 +332,7 @@ export const submitSaveCategory = (type: 'new' | 'update', history: History, id?
 }
 
 export const goBack = (history: History): ThunkAction<void, IAppState, {}, TAllAction> => {
-    return (dispatch,) => {
+    return (dispatch, getState) => {
         dispatch(resetBudgetState());
         dispatch(setIsSetBudget(false));
         dispatch(setSelectedCategory(undefined))

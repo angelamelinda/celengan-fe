@@ -4,13 +4,15 @@ import commonReducer from './common';
 import categoryReducer from './category';
 import budgetReducer from './budget';
 import cashflowReducer from './cashflow';
+import dashboardReducer from './dashboard';
 
 const reducers = combineReducers({
     commonReducer,
     userReducer,
     categoryReducer,
     budgetReducer,
-    cashflowReducer
+    cashflowReducer,
+    dashboardReducer
 });
 
 export default reducers;
