@@ -25,6 +25,7 @@ import {
   CategoryItem,
   CategoryItemIcon,
   CategoryItemName,
+  CategoryNotFound,
   CategoryWrapper,
 } from './styled';
 import { AiFillDelete } from 'react-icons/ai';
@@ -172,8 +173,9 @@ class Category extends PureComponent<ICategoryProps> {
 
   render() {
     const { state } = this.props;
-    const { categoryReducer } = state;
+    const { categoryReducer, commonReducer } = state;
     const { isModalCategoryOpen, category, modalType } = categoryReducer;
+    const { isLoading } = commonReducer;
     const categoryData = this.getCategoryData(this.categoryType);
 
     return (
@@ -182,7 +184,10 @@ class Category extends PureComponent<ICategoryProps> {
         onClickAdd={this.handleAddCategory}
         onClickNavigation={this.handleBack}
       >
-        <>
+        {categoryData && categoryData.length === 0 && !isLoading && (
+          <CategoryNotFound>Category is Empty</CategoryNotFound>
+        )}
+        {categoryData && (
           <CategoryWrapper>
             {categoryData &&
               categoryData.map((category, id) => (
@@ -211,16 +216,16 @@ class Category extends PureComponent<ICategoryProps> {
                 </CategoryItem>
               ))}
           </CategoryWrapper>
-          <ModalCategory
-            open={isModalCategoryOpen}
-            category={category}
-            onChange={this.handleChangeInputCategory}
-            type={modalType}
-            onCancel={this.handleCancelModal}
-            onConfirm={this.handleConfirmModal}
-            onClickIcon={this.handleClickIcon}
-          />
-        </>
+        )}
+        <ModalCategory
+          open={isModalCategoryOpen}
+          category={category}
+          onChange={this.handleChangeInputCategory}
+          type={modalType}
+          onCancel={this.handleCancelModal}
+          onConfirm={this.handleConfirmModal}
+          onClickIcon={this.handleClickIcon}
+        />
       </AppNavigation>
     );
   }

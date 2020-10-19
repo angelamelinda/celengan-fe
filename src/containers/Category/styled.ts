@@ -56,3 +56,14 @@ export const CategoryCTADelete = styled.div`
 export const CategoryCTAUpdate = styled.div`
     color: ${COLOR.PRIMARY};
 `
+
+export const CategoryNotFound = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 75px);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 32px;
+    color: #e0e0e0;
+`
