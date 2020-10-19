@@ -121,7 +121,7 @@ class Cashflow extends PureComponent<ICashflowProps> {
           </CashflowPeriodicNextMonth>
         </CashflowPeriodicWrapper>
         {cashflows && cashflows.length === 0 && !isLoading && (
-          <CashflowNotFound>Cashflow is Empty</CashflowNotFound>
+          <CashflowNotFound>Transaction is Empty</CashflowNotFound>
         )}
         <CashflowItemWrapper>
           {cashflows &&

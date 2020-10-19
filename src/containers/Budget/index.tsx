@@ -109,7 +109,7 @@ class Budget extends PureComponent<IBudgetProps> {
         title="Budgets"
         onClickNavigation={this.handleBack}
         onClickAdd={isSetBudget ? undefined : this.handleAdd}
-        bottomNavigation={true}
+        bottomNavigation={!isSetBudget}
       >
         <BudgetWrapper>
           {!isSetBudget && (
