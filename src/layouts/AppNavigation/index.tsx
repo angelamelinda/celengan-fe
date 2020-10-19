@@ -1,10 +1,11 @@
-import React, { FC } from "react";
-import Navigation from "../../components/Navigation";
+import React, { FC } from 'react';
+import Navigation from '../../components/Navigation';
 
 interface IAppNavigation {
   title: string;
   onClickNavigation?: () => void;
   onClickAdd?: () => void;
+  onLogout?: () => void;
 }
 
 const AppNavigation: FC<IAppNavigation> = ({
@@ -12,6 +13,7 @@ const AppNavigation: FC<IAppNavigation> = ({
   title,
   onClickNavigation,
   onClickAdd,
+  onLogout,
 }) => {
   return (
     <>
@@ -19,6 +21,7 @@ const AppNavigation: FC<IAppNavigation> = ({
         title={title}
         onClickAdd={onClickAdd}
         onClickNavigation={onClickNavigation}
+        onLogout={onLogout}
       />
       {children}
     </>

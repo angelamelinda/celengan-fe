@@ -22,6 +22,7 @@ import {
   convertMoneyToIDR,
   generateRandomColor,
   getDaysInMonth,
+  removeLocalStorage,
 } from '../../helpers';
 
 interface IDashboardProps extends RouteComponentProps {
@@ -105,7 +106,7 @@ class Dashboard extends PureComponent<IDashboardProps> {
         ...prevDataBarCashflow,
         labels: [...prevDataBarCashflow.labels, i],
       };
-
+      // eslint-disable-next-line
       const isFound = report?.dailyReport.some((item) => {
         const prevDataBarCashflow = { ...dataBarCashflow };
         const date = new Date(item.date).getDate();
@@ -143,6 +144,11 @@ class Dashboard extends PureComponent<IDashboardProps> {
     return dataBarCashflow;
   };
 
+  handleLogout = () => {
+    removeLocalStorage('token');
+    window.location.href = APP_URL.LOGIN;
+  };
+
   render() {
     const { state } = this.props;
     const { dashboardReducer } = state;
@@ -156,8 +162,9 @@ class Dashboard extends PureComponent<IDashboardProps> {
         },
       ],
     };
+
     return (
-      <AppNavigation title="Dashboard">
+      <AppNavigation title="Dashboard" onLogout={this.handleLogout}>
         <DashboardWrapper>
           <DashboardTitle>SUMMARY CASHFLOW</DashboardTitle>
           <DashboardReportExpenseIncomeBalance
