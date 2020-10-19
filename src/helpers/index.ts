@@ -31,7 +31,12 @@ export const getDate = (isoDate?: string) => {
 }
 
 export const convertMoneyToIDR = (amount: number) => {
-    return `${Math.abs(amount).toLocaleString(
+    return `${amount.toLocaleString(
         "id-ID"
     )}`;
 };
+
+export const generateRandomColor = () => {
+    const color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    return color;
+}
