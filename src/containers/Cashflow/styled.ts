@@ -24,6 +24,8 @@ export const CashflowPeriodicNextMonth = styled.div`
 `
 
 export const CashflowNotFound = styled.div`
+    text-align: center;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,14 +79,16 @@ export const CashflowDateDayMonthYear = styled.div`
 
 `
 
-export const CashflowDateDay = styled.div`font-weight: 700;
-text-transform: uppercase;`
+export const CashflowDateDay = styled.div`
+    font-weight: 700;
+    text-transform: uppercase;
+`
 
 export const CashflowDateMonthYear = styled.div`
-display: inline-flex;`
+    display: inline-flex;`
 
 export const CashflowDateMonth = styled.div`
-margin-right: 5px;
+    margin-right: 5px;
 `
 
 export const CashflowDateYear = styled.div``
@@ -106,7 +110,7 @@ color: ${COLOR.PRIMARY};
 export const CashflowSpent = styled.div``
 
 export const CashflowItemDetailWrapper = styled.div`
-margin-top: 15px;
+    margin-top: 15px;
 
 `
 
@@ -160,11 +164,14 @@ export const CashflowItemDetailIcon = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 100%;
-    border: 1px solid ${COLOR.PRIMARY};
     display: flex;
     color: ${COLOR.PRIMARY};
     margin-right: 10px;
+    
 
+    &:not(:empty) {
+        border: 1px solid ${COLOR.PRIMARY};
+    } 
     ${CashflowItemDetail}.expense & {
         border-color: ${COLOR.RED};
         color: ${COLOR.RED};

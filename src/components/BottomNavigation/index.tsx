@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaWallet } from 'react-icons/fa';
+import { BiWallet } from 'react-icons/bi';
 import { GrPlan } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import { APP_URL } from '../../constants';
@@ -14,7 +14,7 @@ const BottomNavigation = () => {
     <BottomNavigationWrapper>
       <Link className="bottom-nav-item" to={APP_URL.CASHFLOW}>
         <BottomNavigationItemIcon>
-          <FaWallet />
+          <BiWallet />
         </BottomNavigationItemIcon>
         <BottomNavigationItemName>Transaction</BottomNavigationItemName>
       </Link>

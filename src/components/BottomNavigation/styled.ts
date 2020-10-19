@@ -21,6 +21,7 @@ export const BottomNavigationWrapper = styled.div`
         justify-content: center;
         align-items: center;
         padding: 10px;
+        width: 101px;
 
         &.center {
             width: 40px;
@@ -35,6 +36,12 @@ export const BottomNavigationWrapper = styled.div`
 `
 
 export const BottomNavigationItemIcon = styled.div`
+    font-size: 16px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     svg path {
         color: #00a201;
         stroke: #00a201!important;
@@ -44,4 +51,6 @@ export const BottomNavigationItemIcon = styled.div`
 export const BottomNavigationItemName = styled.div`
     color: #000;
     opacity: .6;
+    font-size: calc(14 / 16 * 1rem);
+    margin-top: 5px;
 `

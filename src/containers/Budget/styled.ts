@@ -109,6 +109,8 @@ export const BudgetItemLeftAmount = styled.div`
 `
 
 export const BudgetNotFound = styled.div`
+    text-align: center;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
