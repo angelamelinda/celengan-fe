@@ -167,12 +167,13 @@ class Cashflow extends PureComponent<ICashflowProps> {
                             }
                           >
                             <CashflowItemDetailIcon>
-                              {getIcons(detail.category.icon)}
+                              {detail.category &&
+                                getIcons(detail.category.icon)}
                             </CashflowItemDetailIcon>
                             <CashflowItemDetailNameAmount>
                               <CashflowItemDetailNameNotes>
                                 <CashflowItemDetailName>
-                                  {detail.category.name}
+                                  {detail.category && detail.category.name}
                                 </CashflowItemDetailName>
                                 <CashflowItemDetailNotes>
                                   {detail.budget && detail.budget.name}
