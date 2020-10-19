@@ -109,6 +109,7 @@ class Budget extends PureComponent<IBudgetProps> {
         title="Budgets"
         onClickNavigation={this.handleBack}
         onClickAdd={isSetBudget ? undefined : this.handleAdd}
+        bottomNavigation={true}
       >
         <BudgetWrapper>
           {!isSetBudget && (
@@ -161,7 +162,7 @@ class Budget extends PureComponent<IBudgetProps> {
                           ? `overspent ${convertMoneyToIDR(
                               Math.abs(budget.amount - budget.spent),
                             )}`
-                          : `spent ${convertMoneyToIDR(
+                          : `left ${convertMoneyToIDR(
                               budget.amount - budget.spent,
                             )}`}
                       </BudgetItemLeftAmount>

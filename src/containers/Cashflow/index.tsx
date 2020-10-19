@@ -102,9 +102,10 @@ class Cashflow extends PureComponent<ICashflowProps> {
 
     return (
       <AppNavigation
-        title="Cashflow"
+        title="Transaction"
         onClickAdd={this.handleClickAdd}
         onClickNavigation={this.handleClickBack}
+        bottomNavigation={true}
       >
         <CashflowPeriodicWrapper>
           <CashflowPeriodicPrevMonth

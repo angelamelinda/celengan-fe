@@ -40,6 +40,7 @@ export const getReport = (): ThunkAction<void, IAppState, {}, TAllAction> => {
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;

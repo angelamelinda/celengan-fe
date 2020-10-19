@@ -85,6 +85,7 @@ export const getCategories = (): ThunkAction<void, IAppState, {}, TAllAction> =>
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -127,6 +128,7 @@ export const postCategory = (data: ICategory): ThunkAction<void, IAppState, {}, 
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -171,6 +173,7 @@ export const updateCategory = (data: ICategory, id: string): ThunkAction<void, I
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -221,6 +224,7 @@ export const deleteCategory = (id: string, data: ICategory): ThunkAction<void, I
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;

@@ -2,9 +2,23 @@ import styled from "styled-components";
 import { COLOR } from "../../constants";
 
 export const DashboardCTA = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
     a {
         padding: 10px;
         display: inline-block;
+        width: 100%;
+        max-width: 200px;
+        border: 1px solid ${COLOR.PRIMARY}
+    }
+
+    &:last-of-type {
+        a {
+            background: ${COLOR.PRIMARY};
+            color: ${COLOR.WHITE};
+        }
     }
     
 `

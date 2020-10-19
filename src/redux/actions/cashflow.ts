@@ -73,6 +73,7 @@ export const getCashflow = (id: string): ThunkAction<void, IAppState, {}, TAllAc
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -112,6 +113,7 @@ export const getCashflows = (date?: { start_date: string, end_date: string }): T
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -156,6 +158,7 @@ export const deleteCashflow = (id: string, history: History): ThunkAction<void, 
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -216,6 +219,7 @@ export const updateCashflow = (id: string, cashflow: ICashflow, budget: IBudget,
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -251,8 +255,6 @@ export const postCashflow = (cashflow: ICashflow, budget: IBudget, category: ICa
             input_date: cashflow.input_date
         }
 
-        console.log(cashflow.type);
-
         if (category) {
             data = { ...data, category_id: category._id }
         }
@@ -273,12 +275,13 @@ export const postCashflow = (cashflow: ICashflow, budget: IBudget, category: ICa
                 dispatch(setSelectedCategory(undefined));
                 dispatch(setIsSetBudget(false));
                 dispatch(setSelectedBudget(undefined));
-                history.push(APP_URL.CASHFLOW);
+                history.replace(APP_URL.CASHFLOW);
             }
         }).catch((err) => {
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;

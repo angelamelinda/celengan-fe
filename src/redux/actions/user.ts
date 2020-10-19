@@ -91,7 +91,8 @@ export const login = (data: ILoginForm, history: History): ThunkAction<void, IAp
 	return (dispatch) => {
 		Axios.post(API.LOGIN, data).then((resp) => {
 			dispatch(setLoginForm(INITIAL_STATE.loginForm));
-			setLocalStorage('token', resp.data.data.token)
+			setLocalStorage('token', resp.data.data.token);
+			setLocalStorage('user', JSON.stringify(resp.data.data.user))
 			history.replace(APP_URL.DASHBOARD);
 		}).catch((err) => {
 			let message = MESSAGES.DEFAULT_ERROR;

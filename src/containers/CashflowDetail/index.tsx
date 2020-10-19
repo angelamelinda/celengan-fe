@@ -138,7 +138,7 @@ class CashflowDetail extends PureComponent<ICashflowDetailProps> {
       <>
         <Button onClick={() => this.handleSubmitForm('update')}>Update</Button>
         <CashflowDetailDeleteButton onClick={this.handleDelete}>
-          Delete This Budget
+          Delete This Transaction
         </CashflowDetailDeleteButton>
       </>
     );
@@ -160,8 +160,8 @@ class CashflowDetail extends PureComponent<ICashflowDetailProps> {
     return (
       <>
         <Input
-          label="Cashflow Notes"
-          placeholder="Cashflow Notes"
+          label="Transaction Notes"
+          placeholder="Transaction Notes"
           value={cashflow.notes}
           name="notes"
           id="notes"
@@ -173,7 +173,7 @@ class CashflowDetail extends PureComponent<ICashflowDetailProps> {
             className={errorForm && errorForm.category ? 'error' : ''}
           >
             <CashflowDetailCategoryLabel>
-              Cashflow Category
+              Transaction Category
             </CashflowDetailCategoryLabel>
             <CashflowDetailCategoryName
               onClick={this.handleChooseCategory}
@@ -190,7 +190,7 @@ class CashflowDetail extends PureComponent<ICashflowDetailProps> {
             className={errorForm && errorForm.budget ? 'error' : ''}
           >
             <CashflowDetailBudgetLabel>
-              Cashflow Budget
+              Transaction Budget
             </CashflowDetailBudgetLabel>
             <CashflowDetailBudgetName
               onClick={this.handleChooseBudget}
@@ -215,8 +215,8 @@ class CashflowDetail extends PureComponent<ICashflowDetailProps> {
           type="date"
         />
         <Input
-          label="Cashflow Amount"
-          placeholder="Cashflow Amount"
+          label="Transaction Amount"
+          placeholder="Transaction Amount"
           value={cashflow.amount}
           name="amount"
           id="amount"
@@ -231,10 +231,10 @@ class CashflowDetail extends PureComponent<ICashflowDetailProps> {
 
   getHeader = () => {
     if (this.isNew) {
-      return 'New Cashflow';
+      return 'New Transaction';
     }
 
-    return 'Edit Cashflow';
+    return 'Edit Transaction';
   };
 
   handleClickTab = (type: string) => {

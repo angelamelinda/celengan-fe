@@ -32,7 +32,6 @@ export const validate = {
 
 export const validateLoginForm = (form: ILoginForm) => {
     return new Promise((resolve, reject) => {
-        console.log(form);
         const error: IErrorField = {
             email: validate.email(form.email) || validate.emptyString(form.password),
             password: validate.emptyString(form.password),

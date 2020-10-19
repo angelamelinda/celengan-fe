@@ -87,6 +87,7 @@ export const getBudgets = (date?: { start_date: string, end_date: string }): Thu
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -125,6 +126,7 @@ export const getBudget = (id: string): ThunkAction<void, IAppState, {}, TAllActi
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -173,12 +175,13 @@ export const postBudget = (budget: IBudget, category: ICategory, history: Histor
                 dispatch(setSelectedCategory(undefined));
                 dispatch(setBudgetRangeDate(data.start_date, data.end_date))
                 dispatch(setIsSetBudget(isSetBudget))
-                history.push(APP_URL.BUDGET);
+                history.replace(APP_URL.BUDGET);
             }
         }).catch((err) => {
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -232,6 +235,7 @@ export const updateBudget = (id: string, budget: IBudget, category: ICategory, h
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;
@@ -276,6 +280,7 @@ export const deleteBudget = (id: string, history: History): ThunkAction<void, IA
             if (err && err.response && err.response.status === 401) {
                 window.location.href = APP_URL.LOGIN;
                 removeLocalStorage('token');
+                removeLocalStorage('user');
             }
 
             let message = MESSAGES.DEFAULT_ERROR;

@@ -22,6 +22,7 @@ import {
   convertMoneyToIDR,
   generateRandomColor,
   getDaysInMonth,
+  getLocalStorage,
   removeLocalStorage,
 } from '../../helpers';
 
@@ -59,20 +60,27 @@ class Dashboard extends PureComponent<IDashboardProps> {
     };
 
     report?.budgetReport.map((budget) => {
-      dataBarCashflow = {
-        ...dataBarCashflow,
-        labels: [...dataBarCashflow.labels, budget.budget.name],
-        datasets: [
-          {
-            ...dataBarCashflow.datasets[0],
-            data: [...dataBarCashflow.datasets[0].data, budget.budget.amount],
-            backgroundColor: [
-              ...dataBarCashflow.datasets[0].backgroundColor,
-              generateRandomColor(),
-            ],
-          },
-        ],
-      };
+      if (budget && budget.budget && budget.budget.name) {
+        dataBarCashflow = {
+          ...dataBarCashflow,
+          labels: [...dataBarCashflow.labels, budget.budget.name],
+          datasets: [
+            {
+              ...dataBarCashflow.datasets[0],
+              data: [
+                ...dataBarCashflow.datasets[0].data,
+                budget.budget.name === 'Uncategorized'
+                  ? budget.totalExpenses
+                  : budget.budget.amount,
+              ],
+              backgroundColor: [
+                ...dataBarCashflow.datasets[0].backgroundColor,
+                generateRandomColor(),
+              ],
+            },
+          ],
+        };
+      }
     });
 
     return dataBarCashflow;
@@ -146,6 +154,7 @@ class Dashboard extends PureComponent<IDashboardProps> {
 
   handleLogout = () => {
     removeLocalStorage('token');
+    removeLocalStorage('user');
     window.location.href = APP_URL.LOGIN;
   };
 
@@ -163,10 +172,17 @@ class Dashboard extends PureComponent<IDashboardProps> {
       ],
     };
 
+    const user = getLocalStorage('user');
+
     return (
-      <AppNavigation title="Dashboard" onLogout={this.handleLogout}>
+      <AppNavigation
+        title="Dashboard"
+        onLogout={this.handleLogout}
+        username={(user && JSON.parse(user).username) || undefined}
+        bottomNavigation={true}
+      >
         <DashboardWrapper>
-          <DashboardTitle>SUMMARY CASHFLOW</DashboardTitle>
+          <DashboardTitle>SUMMARY TRANSACTION</DashboardTitle>
           <DashboardReportExpenseIncomeBalance
             onClick={this.handleClickCashflow}
           >
@@ -194,17 +210,17 @@ class Dashboard extends PureComponent<IDashboardProps> {
           </DashboardReportExpenseIncomeBalance>
           <DashboardCTAWrapper>
             <DashboardCTA>
-              <Link to={APP_URL.BUDGET}>See Budget</Link>
+              <Link to={APP_URL.BUDGET}>Budget</Link>
             </DashboardCTA>
             <DashboardCTA>
-              <Link to={APP_URL.CASHFLOW}>See Cashflow</Link>
+              <Link to={APP_URL.CASHFLOW}>Transaction</Link>
             </DashboardCTA>
           </DashboardCTAWrapper>
-          <DashboardTitle>CASHFLOW PIE CHART</DashboardTitle>
+          <DashboardTitle>TRANSACTION PIE CHART</DashboardTitle>
           <DashboardChart>
             <Pie data={dataPieCashflow} />
           </DashboardChart>
-          <DashboardTitle>CASHFLOW BAR CHART</DashboardTitle>
+          <DashboardTitle>TRANSACTION BAR CHART</DashboardTitle>
           <DashboardChart>
             <Bar
               data={() => this.getBarData('expense')}
