@@ -58,8 +58,8 @@ export const CategoryCTAUpdate = styled.div`
 `
 
 export const CategoryNotFound = styled.div`
-text-align: center;
-padding: 10px;
+    text-align: center;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

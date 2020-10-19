@@ -43,15 +43,22 @@ class Dashboard extends PureComponent<IDashboardProps> {
     history.push(APP_URL.CASHFLOW);
   };
 
-  getBudgetData = () => {
+  getTransactionPerDay = () => {
     const { state } = this.props;
     const { dashboardReducer } = state;
     const { report } = dashboardReducer;
+
     let dataBarCashflow: any = {
       labels: [],
       datasets: [
         {
-          label: `Budget ${MONTHS[new Date().getMonth()]}`,
+          label: `Budget Allocation ${MONTHS[new Date().getMonth()]}`,
+          backgroundColor: [],
+          borderWidth: 1,
+          data: [],
+        },
+        {
+          label: `Budget Realization ${MONTHS[new Date().getMonth()]}`,
           backgroundColor: [],
           borderWidth: 1,
           data: [],
@@ -61,21 +68,25 @@ class Dashboard extends PureComponent<IDashboardProps> {
 
     report?.budgetReport.map((budget) => {
       if (budget && budget.budget && budget.budget.name) {
+        const backgroundColor = generateRandomColor();
         dataBarCashflow = {
           ...dataBarCashflow,
           labels: [...dataBarCashflow.labels, budget.budget.name],
           datasets: [
             {
               ...dataBarCashflow.datasets[0],
-              data: [
-                ...dataBarCashflow.datasets[0].data,
-                budget.budget.name === 'Uncategorized'
-                  ? budget.totalExpenses
-                  : budget.budget.amount,
-              ],
+              data: [...dataBarCashflow.datasets[0].data, budget.budget.amount],
               backgroundColor: [
                 ...dataBarCashflow.datasets[0].backgroundColor,
-                generateRandomColor(),
+                backgroundColor,
+              ],
+            },
+            {
+              ...dataBarCashflow.datasets[1],
+              data: [...dataBarCashflow.datasets[1].data, budget.totalExpenses],
+              backgroundColor: [
+                ...dataBarCashflow.datasets[1].backgroundColor,
+                backgroundColor,
               ],
             },
           ],
@@ -83,10 +94,19 @@ class Dashboard extends PureComponent<IDashboardProps> {
       }
     });
 
-    return dataBarCashflow;
+    return {
+      allocation: {
+        labels: dataBarCashflow.labels,
+        datasets: [dataBarCashflow.datasets[0]],
+      },
+      realization: {
+        labels: dataBarCashflow.labels,
+        datasets: [dataBarCashflow.datasets[1]],
+      },
+    };
   };
 
-  getBarData = (type: string) => {
+  getBarData = () => {
     const { state } = this.props;
     const { dashboardReducer } = state;
     const { report } = dashboardReducer;
@@ -96,53 +116,60 @@ class Dashboard extends PureComponent<IDashboardProps> {
       labels: [],
       datasets: [
         {
-          label: `Cashflow ${type === 'expense' ? 'Expense' : 'Income'} ${
-            MONTHS[new Date().getMonth()]
-          }`,
-          backgroundColor: type === 'expense' ? COLOR.RED : COLOR.PRIMARY,
+          label: `Transaction Expense ${MONTHS[new Date().getMonth()]}`,
+          backgroundColor: COLOR.RED,
           borderWidth: 1,
-          hoverBackgroundColor:
-            type === 'expense' ? `rgba(238, 0, 0, .6)` : `rgba(0, 162, 1, .6)`,
+          hoverBackgroundColor: 'rgba(238, 0, 0, .6)',
+          data: [],
+        },
+        {
+          label: `Transaction Income ${MONTHS[new Date().getMonth()]}`,
+          backgroundColor: COLOR.PRIMARY,
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(0, 162, 1, .6)',
           data: [],
         },
       ],
     };
 
     for (let i = 1; i <= lastDate; i++) {
-      const prevDataBarCashflow = { ...dataBarCashflow };
       dataBarCashflow = {
-        ...prevDataBarCashflow,
-        labels: [...prevDataBarCashflow.labels, i],
+        ...dataBarCashflow,
+        labels: [...dataBarCashflow.labels, i],
       };
+
       // eslint-disable-next-line
       const isFound = report?.dailyReport.some((item) => {
-        const prevDataBarCashflow = { ...dataBarCashflow };
-        const date = new Date(item.date).getDate();
-        if (Number(date) === i) {
+        if (new Date(item.date as string).getDate() === i) {
           dataBarCashflow = {
-            ...prevDataBarCashflow,
+            ...dataBarCashflow,
             datasets: [
               {
-                ...prevDataBarCashflow.datasets[0],
-                data: [
-                  ...prevDataBarCashflow.datasets[0].data,
-                  type === 'expense' ? item.totalExpenses : item.totalIncome,
-                ],
+                ...dataBarCashflow.datasets[0],
+                data: [...dataBarCashflow.datasets[0].data, item.totalExpenses],
+              },
+              {
+                ...dataBarCashflow.datasets[1],
+                data: [...dataBarCashflow.datasets[1].data, item.totalIncome],
               },
             ],
           };
+
+          return true;
         }
       });
 
       if (!isFound) {
-        const prevDataBarCashflow = { ...dataBarCashflow };
-
         dataBarCashflow = {
-          ...prevDataBarCashflow,
+          ...dataBarCashflow,
           datasets: [
             {
-              ...prevDataBarCashflow.datasets[0],
-              data: [...prevDataBarCashflow.datasets[0].data, 0],
+              ...dataBarCashflow.datasets[0],
+              data: [...dataBarCashflow.datasets[0].data, 0],
+            },
+            {
+              ...dataBarCashflow.datasets[1],
+              data: [...dataBarCashflow.datasets[1].data, 0],
             },
           ],
         };
@@ -171,6 +198,8 @@ class Dashboard extends PureComponent<IDashboardProps> {
         },
       ],
     };
+
+    const transactionPerDay = this.getTransactionPerDay();
 
     const user = getLocalStorage('user');
 
@@ -216,14 +245,14 @@ class Dashboard extends PureComponent<IDashboardProps> {
               <Link to={APP_URL.CASHFLOW}>Transaction</Link>
             </DashboardCTA>
           </DashboardCTAWrapper>
-          <DashboardTitle>TRANSACTION PIE CHART</DashboardTitle>
+          <DashboardTitle>INCOME vs EXPENSE</DashboardTitle>
           <DashboardChart>
             <Pie data={dataPieCashflow} />
           </DashboardChart>
-          <DashboardTitle>TRANSACTION BAR CHART</DashboardTitle>
+          <DashboardTitle>TRANSACTION PER DAY</DashboardTitle>
           <DashboardChart>
             <Bar
-              data={() => this.getBarData('expense')}
+              data={this.getBarData}
               width={100}
               height={50}
               options={{
@@ -231,19 +260,13 @@ class Dashboard extends PureComponent<IDashboardProps> {
               }}
             />
           </DashboardChart>
+          <DashboardTitle>BUDGET ALLOCATION</DashboardTitle>
           <DashboardChart>
-            <Bar
-              data={() => this.getBarData('income')}
-              width={100}
-              height={50}
-              options={{
-                maintainAspectRatio: true,
-              }}
-            />
+            <Pie data={transactionPerDay.allocation} />
           </DashboardChart>
-          <DashboardTitle>BUDGET PIE CHART</DashboardTitle>
+          <DashboardTitle>BUDGET REALIZATION</DashboardTitle>
           <DashboardChart>
-            <Pie data={() => this.getBudgetData()} />
+            <Pie data={transactionPerDay.realization} />
           </DashboardChart>
         </DashboardWrapper>
       </AppNavigation>
