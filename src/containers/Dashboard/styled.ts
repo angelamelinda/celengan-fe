@@ -82,12 +82,21 @@ export const DashboardReportEIItem = styled.div`
 
 export const DashboardTitle = styled.div`
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     text-transform: uppercase;
     text-align: right;
     padding: 0 15px;
     color: ${COLOR.PRIMARY};
     letter-spacing: 1px;
+`
+
+export const DashboardSubtitle = styled.div`
+    font-weight: 300;
+    margin-bottom: 10px;
+    text-align: right;
+    padding: 0 15px;
+    opactiy: .6;
+    font-size: calc(14 / 16 * 1rem)
 `
 
 export const DashboardChart = styled.div`

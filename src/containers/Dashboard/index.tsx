@@ -13,6 +13,7 @@ import {
   DashboardReportEIItem,
   DashboardReportExpenseIncome,
   DashboardReportExpenseIncomeBalance,
+  DashboardSubtitle,
   DashboardTitle,
   DashboardWrapper,
 } from './styled';
@@ -33,6 +34,10 @@ interface IDashboardProps extends RouteComponentProps {
 }
 
 class Dashboard extends PureComponent<IDashboardProps> {
+  currentPeriodDate = new Date();
+  currentPeriodMonth = MONTHS[this.currentPeriodDate.getMonth()];
+  currentPeriodYear = this.currentPeriodDate.getFullYear();
+
   componentDidMount() {
     const { getReport } = this.props;
     getReport();
@@ -52,13 +57,13 @@ class Dashboard extends PureComponent<IDashboardProps> {
       labels: [],
       datasets: [
         {
-          label: `Budget Allocation ${MONTHS[new Date().getMonth()]}`,
+          label: `Budget Allocation`,
           backgroundColor: [],
           borderWidth: 1,
           data: [],
         },
         {
-          label: `Budget Realization ${MONTHS[new Date().getMonth()]}`,
+          label: `Budget Realization`,
           backgroundColor: [],
           borderWidth: 1,
           data: [],
@@ -116,14 +121,14 @@ class Dashboard extends PureComponent<IDashboardProps> {
       labels: [],
       datasets: [
         {
-          label: `Transaction Expense ${MONTHS[new Date().getMonth()]}`,
+          label: `Transaction Expense`,
           backgroundColor: COLOR.RED,
           borderWidth: 1,
           hoverBackgroundColor: 'rgba(238, 0, 0, .6)',
           data: [],
         },
         {
-          label: `Transaction Income ${MONTHS[new Date().getMonth()]}`,
+          label: `Transaction Income`,
           backgroundColor: COLOR.PRIMARY,
           borderWidth: 1,
           hoverBackgroundColor: 'rgba(0, 162, 1, .6)',
@@ -212,6 +217,7 @@ class Dashboard extends PureComponent<IDashboardProps> {
       >
         <DashboardWrapper>
           <DashboardTitle>SUMMARY TRANSACTION</DashboardTitle>
+          <DashboardSubtitle>{`${this.currentPeriodMonth} ${this.currentPeriodYear}`}</DashboardSubtitle>
           <DashboardReportExpenseIncomeBalance
             onClick={this.handleClickCashflow}
           >
@@ -246,10 +252,12 @@ class Dashboard extends PureComponent<IDashboardProps> {
             </DashboardCTA>
           </DashboardCTAWrapper>
           <DashboardTitle>INCOME vs EXPENSE</DashboardTitle>
+          <DashboardSubtitle>{`${this.currentPeriodMonth} ${this.currentPeriodYear}`}</DashboardSubtitle>
           <DashboardChart>
             <Pie data={dataPieCashflow} />
           </DashboardChart>
           <DashboardTitle>TRANSACTION PER DAY</DashboardTitle>
+          <DashboardSubtitle>{`${this.currentPeriodMonth} ${this.currentPeriodYear}`}</DashboardSubtitle>
           <DashboardChart>
             <Bar
               data={this.getBarData}
@@ -261,10 +269,12 @@ class Dashboard extends PureComponent<IDashboardProps> {
             />
           </DashboardChart>
           <DashboardTitle>BUDGET ALLOCATION</DashboardTitle>
+          <DashboardSubtitle>{`${this.currentPeriodMonth} ${this.currentPeriodYear}`}</DashboardSubtitle>
           <DashboardChart>
             <Pie data={transactionPerDay.allocation} />
           </DashboardChart>
           <DashboardTitle>BUDGET REALIZATION</DashboardTitle>
+          <DashboardSubtitle>{`${this.currentPeriodMonth} ${this.currentPeriodYear}`}</DashboardSubtitle>
           <DashboardChart>
             <Pie data={transactionPerDay.realization} />
           </DashboardChart>
