@@ -3,6 +3,7 @@ import {
   NavigationAdd,
   NavigationBack,
   NavigationLogout,
+  NavigationLogoutProfile,
   NavigationTitle,
   NavigationWrapper,
 } from './styled';
@@ -15,6 +16,7 @@ interface INavigation {
   onClickNavigation?: () => void;
   onClickAdd?: () => void;
   onLogout?: () => void;
+  username?: string;
 }
 
 const Navigation: FC<INavigation> = ({
@@ -22,6 +24,7 @@ const Navigation: FC<INavigation> = ({
   onClickNavigation,
   onClickAdd,
   onLogout,
+  username,
 }) => {
   return (
     <NavigationWrapper>
@@ -37,9 +40,12 @@ const Navigation: FC<INavigation> = ({
         </NavigationAdd>
       )}
       {onLogout && (
-        <NavigationLogout onClick={onLogout}>
-          <FiLogOut />
-        </NavigationLogout>
+        <NavigationLogoutProfile>
+          {username && `Hi, ${username} `}
+          <NavigationLogout onClick={onLogout}>
+            <FiLogOut />
+          </NavigationLogout>
+        </NavigationLogoutProfile>
       )}
     </NavigationWrapper>
   );

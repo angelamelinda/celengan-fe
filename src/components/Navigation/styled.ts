@@ -36,9 +36,14 @@ export const NavigationAdd = styled.div`
     justify-content: center;
 `
 
-export const NavigationLogout = styled.div`
+export const NavigationLogoutProfile = styled.div`
     position: absolute;
     right: 10px;
+    display: flex;
+    align-items: center;
+`
+
+export const NavigationLogout = styled.div`
     font-size: calc(20 / 16 * 1rem);
     width: 30px;
     height: 30px;
